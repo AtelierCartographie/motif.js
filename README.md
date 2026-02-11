@@ -315,6 +315,30 @@ pnpm run build:demo
 
 Outputs to `dist-demo/` for deployment to GitHub Pages or static hosting.
 
+## 🌐 GitHub Pages Deployment
+
+The demo is automatically deployed to GitHub Pages when you push to the `main` branch, thanks to the GitHub Actions workflow in `.github/workflows/deploy-demo.yml`.
+
+### Manual Setup (One-time)
+
+1. Go to your repository settings
+2. Navigate to "Pages" section
+3. Set the source to "Deploy from a branch"
+4. Select the `gh-pages` branch
+5. Click Save
+
+The workflow will automatically build and deploy the demo to `https://yourusername.github.io/motif.js/`
+
+### Local Testing
+
+To test the demo locally before deployment:
+
+```bash
+pnpm dev
+```
+
+This starts a development server at http://localhost:5173 with hot module reloading.
+
 ## 📚 Learn More
 
 - **Observable Notebook**: [Full source and examples](https://observablehq.com/@ateliercartographie/motif)
