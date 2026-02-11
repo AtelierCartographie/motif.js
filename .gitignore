@@ -27,6 +27,3 @@ dist-ssr
 # Vite
 .vite
 
-# pnpm
-pnpm-lock.yaml
-
