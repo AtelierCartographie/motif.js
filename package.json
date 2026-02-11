@@ -17,7 +17,9 @@
     "dist"
   ],
   "scripts": {
+    "dev": "vite demo",
     "build": "tsc && vite build",
+    "build:demo": "vite build demo",
     "preview": "npm run build"
   },
   "devDependencies": {
@@ -46,5 +48,5 @@
     "generator"
   ],
   "author": "Thomas Ansart",
-  "license": "MIT"
+  "license": "ISC"
 }
