@@ -1,16 +1,30 @@
 {
-  "name": "motif",
+  "name": "motif.js",
   "version": "0.1.0",
   "type": "module",
+  "description": "A pattern generator that can be used in SVG environment or Canvas context",
+  "main": "./dist/motif.js",
+  "module": "./dist/motif.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/motif.mjs",
+      "require": "./dist/motif.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vite-plugin-dts": "^4.5.4"
   },
   "peerDependencies": {
     "@observablehq/plot": "^0.6.0"
@@ -19,5 +33,18 @@
     "@observablehq/plot": {
       "optional": true
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/motif.js"
+  },
+  "keywords": [
+    "pattern",
+    "motif",
+    "svg",
+    "canvas",
+    "generator"
+  ],
+  "author": "Thomas Ansart",
+  "license": "MIT"
 }

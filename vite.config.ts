@@ -1,12 +1,16 @@
 import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
-  server: {
-    port: 5173,
-    open: true
-  },
+  plugins: [dts()],
   build: {
-    target: 'ES2020',
-    minify: 'terser'
+    lib: {
+      entry: 'src/index.ts',
+      name: 'Motif',
+      formats: ['es', 'umd'],
+      fileName: (format) => `motif.${format === 'es' ? 'mjs' : 'js'}`
+    },
+    minify: false,
+    target: 'ES2020'
   }
 })
