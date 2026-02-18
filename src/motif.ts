@@ -17,8 +17,15 @@
  * @returns {{ defs: SVGElement, url: string, context: Function, apply: Function }} An object containing SVG defs element with pattern, url id of the pattern and two functions for Canvas use: context and apply.
  */
 
+// Constants
+const DEFAULT_DPI_MULTIPLIER = 2;
+const CROSS_DIAMOND_ROTATION = 45;
+const TILE_BASE_SIZE = 10;
+
+export type PatternType = "line" | "plaid" | "circle" | "plus" | "cross" | "triangle" | "square" | "diamond" | "custom";
+
 export interface PatternOptions {
-  type?: "line" | "plaid" | "circle" | "plus" | "cross" | "triangle" | "square" | "diamond" | "custom";
+  type?: PatternType;
   scale?: number;
   size?: number;
   angle?: number;
@@ -36,10 +43,24 @@ export interface PatternOptions {
 }
 
 export interface PatternResult {
-  defs: string;
+  defs: SVGDefsElement;
   url: string;
   context: (ctx: CanvasRenderingContext2D) => CanvasPattern;
   apply: () => void;
+  tile: () => HTMLCanvasElement;
+}
+
+function createSVGElement(svgString: string): SVGElement {
+  if (typeof document === 'undefined') {
+    // SSR / Node environment support
+    return { outerHTML: svgString } as unknown as SVGElement;
+  }
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(
+    `<svg xmlns="http://www.w3.org/2000/svg">${svgString}</svg>`, 
+    "image/svg+xml"
+  );
+  return doc.documentElement.firstChild as SVGElement;
 }
 
 function degreeToRadian(degree: number): number {
@@ -123,12 +144,12 @@ export function motif(options: PatternOptions = {}): PatternResult {
     custom
   } = options;
 
-  const tile = scale * 10;
-  const getShapeArea = () => (size / 100) * (tile * tile);
-  let externalContext: CanvasRenderingContext2D;
-  const dpi = typeof devicePixelRatio !== "undefined" ? devicePixelRatio : 2; // double the dpi to ensure crisp small shape
+  const tileSize = scale * TILE_BASE_SIZE;
+  const get_shape_area = () => (size / 100) * (tileSize * tileSize);
+  let external_context: CanvasRenderingContext2D;
+  const dpi = typeof devicePixelRatio !== "undefined" ? devicePixelRatio : DEFAULT_DPI_MULTIPLIER;
 
-  const shapePath = new Map<string, (t: number, shapeArea: number) => string>([
+  const shape_path = new Map<PatternType, (t: number, shapeArea: number) => string>([
     ["line", line],
     ["plaid", plaid],
     ["circle", circle],
@@ -141,7 +162,7 @@ export function motif(options: PatternOptions = {}): PatternResult {
   ]);
 
   // Empirical tipping point = faster and still close to real one
-  const tippingPoint = new Map<string, number>([
+  const tipping_point = new Map<PatternType, number>([
     ["line", 50], // arbitrary
     ["plaid", 50], // arbitrary
     ["circle", 78],
@@ -153,68 +174,68 @@ export function motif(options: PatternOptions = {}): PatternResult {
     ["custom", custom?.patch ?? 50]
   ]);
 
-  if (patchSize && size > (tippingPoint.get(type) ?? 50)) {
+  if (patchSize && size > (tipping_point.get(type) ?? 50)) {
     const back = background;
     background = fill;
     fill = back;
     size = 100 - size;
   }
 
-  const pathFunction = shapePath.get(type);
-  if (!pathFunction) {
+  const path_function = shape_path.get(type);
+  if (!path_function) {
     throw new Error(`Unknown pattern type: ${type}`);
   }
 
-  const path = pathFunction(tile, getShapeArea());
-  const id = `${type}-${Math.round(performance.now()) + Math.random().toFixed(3)}`;
-  const rotateShape = ["cross", "diamond"].includes(type) ? 45 : 0;
+  const path = path_function(tileSize, get_shape_area());
+  const id = `${type}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  const rotate_shape = ["cross", "diamond"].includes(type) ? CROSS_DIAMOND_ROTATION : 0;
 
   // SVG OUTPUT
   const pattern = `<pattern id="${id}" 
-                               width="${tile}" height="${tile}"
-                               viewBox="${-tile / 2} ${-tile / 2} ${tile} ${tile}"
+                               width="${tileSize}" height="${tileSize}"
+                               viewBox="${-tileSize / 2} ${-tileSize / 2} ${tileSize} ${tileSize}"
                                patternUnits="userSpaceOnUse"
                                patternTransform="rotate(${angle})">
       <rect fill="${background}" 
-            x="${-tile / 2}" y="${-tile / 2}"
-            width="${tile}" height="${tile}"/>
+            x="${-tileSize / 2}" y="${-tileSize / 2}"
+            width="${tileSize}" height="${tileSize}"/>
       <path d="${path}"
-            transform="rotate(${rotateShape})"
+            transform="rotate(${rotate_shape})"
             fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"/>
     </pattern>`;
 
-  const defs = `<defs>${pattern}</defs>`;
+  const defs = createSVGElement(`<defs>${pattern}</defs>`) as SVGDefsElement;
   const url = `url(#${id})`;
 
-  // CANVAS OUTPUT
-  function get_canvas_with_base_tile(): OffscreenCanvas | HTMLCanvasElement {
-    let canvas: OffscreenCanvas | HTMLCanvasElement;
-    // Handle resolution
-    const tile_dpi = tile * dpi;
+  // CANVAS OUTPUT - Helper function to create tile canvas
+  function create_tile_canvas(tile_dpi: number, as_element: boolean = false): HTMLCanvasElement | OffscreenCanvas {
+    const canvas = as_element 
+      ? Object.assign(document.createElement("canvas"), { width: tile_dpi, height: tile_dpi })
+      : (typeof OffscreenCanvas !== "undefined"
+          ? new OffscreenCanvas(tile_dpi, tile_dpi)
+          : Object.assign(document.createElement("canvas"), { width: tile_dpi, height: tile_dpi }));
 
-    // Tile create with an offscreen canvas if available
-    if (typeof window.OffscreenCanvas !== "undefined") {
-      canvas = new window.OffscreenCanvas(tile_dpi, tile_dpi);
-    } else {
-      canvas = document.createElement("canvas");
-      canvas.width = canvas.height = tile_dpi;
-    }
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { 
+      alpha: true,
+      willReadFrequently: false
+    }) as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null;
     if (!ctx) throw new Error("Could not get 2D context from canvas");
 
     // Tile background and border
+    ctx.save();
     ctx.fillStyle = background;
     ctx.strokeStyle = border === 0 ? "transparent" : "black";
     ctx.lineWidth = border;
     ctx.rect(0, 0, tile_dpi, tile_dpi);
     ctx.fill();
-    ctx.stroke();
+    if (border !== 0) ctx.stroke();
+    ctx.restore();
 
     // Origin to tile center and shape styling
     ctx.beginPath();
     ctx.translate(tile_dpi / 2, tile_dpi / 2);
     ctx.scale(dpi, dpi);
-    ctx.rotate(degreeToRadian(rotateShape)); // handle cross and diamond as rotation of plus and square
+    ctx.rotate(degreeToRadian(rotate_shape));
     ctx.strokeStyle = strokeWidth === 0 ? "transparent" : stroke;
     ctx.setLineDash(dash);
     ctx.lineWidth = strokeWidth;
@@ -226,19 +247,18 @@ export function motif(options: PatternOptions = {}): PatternResult {
     const path2D = new Path2D(path);
     ctx.stroke(path2D);
     ctx.fill(path2D);
-
-    // Reset translate to tile center
     ctx.resetTransform();
 
     return canvas;
   }
 
   function context(ctx: CanvasRenderingContext2D): CanvasPattern {
-    const canvasBaseTile = get_canvas_with_base_tile();
-    const pattern = ctx.createPattern(canvasBaseTile, "repeat");
+    const tile_dpi = tileSize * dpi;
+    const canvas_base_tile = create_tile_canvas(tile_dpi, false);
+    const pattern = ctx.createPattern(canvas_base_tile, "repeat");
     if (!pattern) throw new Error("Could not create canvas pattern");
     
-    externalContext = ctx;
+    external_context = ctx;
     (pattern as any).apply = apply;
     (pattern as any).defs = defs;
     (pattern as any).url = url;
@@ -247,16 +267,21 @@ export function motif(options: PatternOptions = {}): PatternResult {
 
   // Apply pattern with good scale and angle
   function apply(): void {
-    const angleRadian = degreeToRadian(angle);
+    const angle_radian = degreeToRadian(angle);
+    external_context.save();
     // Scale pattern to it's good size
-    externalContext.scale(1 / dpi, 1 / dpi);
+    external_context.scale(1 / dpi, 1 / dpi);
     // Rotate pattern according to angle input
-    externalContext.rotate(angleRadian);
-    externalContext.fill();
-    externalContext.resetTransform();
-    // restore scale to device pixel resolution
-    externalContext.scale(dpi, dpi);
+    external_context.rotate(angle_radian);
+    external_context.fill();
+    external_context.restore();
   }
 
-  return { defs, url, context, apply };
+  // Return the unit tile as HTMLCanvasElement (for atlas usage)
+  function tile(): HTMLCanvasElement {
+    const tile_dpi = tileSize * dpi;
+    return create_tile_canvas(tile_dpi, true) as HTMLCanvasElement;
+  }
+
+  return { defs, url, context, apply, tile };
 }

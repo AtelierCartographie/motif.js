@@ -9,6 +9,10 @@
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "declarationMap": true,
+    "paths": {
+      "motif.js": ["./src/index.ts"],
+      "$lib/*": ["./demo/src/lib/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -16,6 +20,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src"],
+  "include": ["src", "demo/src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

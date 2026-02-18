@@ -41,6 +41,7 @@ motif.js/
 ### Development
 
 **Start the interactive demo server:**
+
 ```bash
 pnpm dev
 ```
@@ -50,21 +51,25 @@ Opens http://localhost:5173 with hot module reloading enabled.
 ### Building
 
 **Build the library:**
+
 ```bash
 pnpm run build
 ```
 
 Outputs:
+
 - `dist/motif.mjs` - ES Module (modern browsers, bundlers)
 - `dist/motif.js` - UMD (browsers, Node.js)
 - `dist/index.d.ts` - TypeScript type definitions
 
 **Build the demo for deployment:**
+
 ```bash
 pnpm run build:demo
 ```
 
 Outputs:
+
 - `dist-demo/` - Static site ready for GitHub Pages
 
 ## How the Project Works
@@ -72,16 +77,19 @@ Outputs:
 ### Library Mode (src/)
 
 The library exports a single function `motif()` that generates patterns. It works in:
+
 - **SVG**: Generates pattern definitions that can be used with `<pattern>` elements
 - **Canvas**: Generates patterns for Canvas 2D rendering contexts
 
 Key files:
+
 - `src/motif.ts` - Core pattern generation logic
 - `src/index.ts` - Public API exports
 
 ### Demo Mode (demo/)
 
 An interactive web application that showcases the library with:
+
 - Pattern editor with real-time preview
 - Live controls for all options
 - Side-by-side SVG and Canvas previews
@@ -125,26 +133,30 @@ This ensures the demo always uses the latest code.
 To add a new pattern type:
 
 1. Create a shape function in `src/motif.ts`:
+
    ```typescript
    function myPattern(t: number, shapeArea: number): string {
      // Calculate shape dimensions
      const size = Math.sqrt(shapeArea);
      // Return SVG path
-     return `M ${-size/2} ${-size/2} h ${size} v ${size} h ${-size} Z`;
+     return `M ${-size / 2} ${-size / 2} h ${size} v ${size} h ${-size} Z`;
    }
    ```
 
 2. Add it to the `shapePath` Map:
+
    ```typescript
    shapePath.set("mypattern", myPattern);
    ```
 
 3. Update the TypeScript type in the interface:
+
    ```typescript
    type: "line" | "plaid" | /* ... */ | "mypattern"
    ```
 
 4. Sync to demo:
+
    ```bash
    cp src/motif.ts demo/src/
    ```
@@ -160,6 +172,7 @@ pnpm dev
 ```
 
 Then use the pattern editor to:
+
 - Select your new pattern type
 - Adjust size, scale, angle, colors
 - Preview in both SVG and Canvas
@@ -200,6 +213,7 @@ pnpm run build:demo
 ## Code Style
 
 The project uses TypeScript with strict type checking. Keep the code:
+
 - Well-typed with proper interfaces
 - Clear and documented with JSDoc comments
 - Consistent with the existing style
