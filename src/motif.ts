@@ -17,12 +17,18 @@
  * @returns {{ defs: SVGElement, url: string, context: Function, apply: Function }} An object containing SVG defs element with pattern, url id of the pattern and two functions for Canvas use: context and apply.
  */
 
+import { path as d3path, type Path } from "d3-path";
+
 // Constants
 const DEFAULT_DPI_MULTIPLIER = 2;
 const CROSS_DIAMOND_ROTATION = 45;
 const TILE_BASE_SIZE = 10;
 
 export type PatternType = "line" | "plaid" | "circle" | "plus" | "cross" | "triangle" | "square" | "diamond" | "custom";
+
+export type CustomShapeFnSVG = (t: number, shapeArea: number) => string;
+export type CustomShapeFnCanvas = (t: number, shapeArea: number, context: Path) => Path;
+export type CustomShapeFn = CustomShapeFnSVG | CustomShapeFnCanvas;
 
 export interface PatternOptions {
   type?: PatternType;
@@ -37,7 +43,7 @@ export interface PatternOptions {
   border?: number;
   patchSize?: boolean;
   custom?: {
-    shape: string | ((t: number, shapeArea: number) => string);
+    shape: string | CustomShapeFn;
     patch?: number;
   };
 }
@@ -149,7 +155,7 @@ export function motif(options: PatternOptions = {}): PatternResult {
   let external_context: CanvasRenderingContext2D;
   const dpi = typeof devicePixelRatio !== "undefined" ? devicePixelRatio : DEFAULT_DPI_MULTIPLIER;
 
-  const shape_path = new Map<PatternType, (t: number, shapeArea: number) => string>([
+  const shape_path = new Map<PatternType, CustomShapeFn>([
     ["line", line],
     ["plaid", plaid],
     ["circle", circle],
@@ -158,7 +164,7 @@ export function motif(options: PatternOptions = {}): PatternResult {
     ["triangle", triangle],
     ["square", square],
     ["diamond", square],
-    ["custom", custom?.shape as (t: number, shapeArea: number) => string]
+    ["custom", custom?.shape as CustomShapeFn]
   ]);
 
   // Empirical tipping point = faster and still close to real one
@@ -186,7 +192,10 @@ export function motif(options: PatternOptions = {}): PatternResult {
     throw new Error(`Unknown pattern type: ${type}`);
   }
 
-  const path = path_function(tileSize, get_shape_area());
+  // Detect canvas-style custom shape (3 args) vs SVG string (2 args)
+  const path: string = path_function.length === 3
+    ? (path_function as CustomShapeFnCanvas)(tileSize, get_shape_area(), d3path()).toString()
+    : (path_function as CustomShapeFnSVG)(tileSize, get_shape_area());
   const id = `${type}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   const rotate_shape = ["cross", "diamond"].includes(type) ? CROSS_DIAMOND_ROTATION : 0;
 
