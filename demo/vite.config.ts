@@ -5,6 +5,7 @@ import path from 'path';
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 export default defineConfig({
+  base: process.env.GITHUB_PAGES ? '/motif.js/' : '/',
   plugins: [svelte()],
   server: {
     port: 5173,
