@@ -201,7 +201,8 @@ export function motif(options: PatternOptions = {}): PatternResult {
             width="${tileSize}" height="${tileSize}"/>
       <path d="${path}"
             transform="rotate(${rotate_shape})"
-            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"/>
+            fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}"
+            stroke-dasharray="${dash.length > 0 ? dash.join(' ') : 'none'}"/>
     </pattern>`;
 
   const defs = createSVGElement(`<defs>${pattern}</defs>`) as SVGDefsElement;

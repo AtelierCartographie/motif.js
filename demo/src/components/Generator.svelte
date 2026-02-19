@@ -6,10 +6,10 @@
 
   // State
   let type: PatternType = $state("circle");
-  let size = $state(25);
+  let size = $state(15);
   let scale = $state(1);
   let angle = $state(0);
-  let fill = $state("#1e293b");
+  let fill = $state("#2861bd");
   let stroke = $state("#000000");
   let strokeWidth = $state(0);
   let dashInput = $state("");
@@ -173,13 +173,13 @@
         </div>
         <div class="control-group">
           <label for="gen-sw"
-            >Stroke W. <span class="value">{strokeWidth}</span></label
+            >Stroke Width <span class="value">{strokeWidth}</span></label
           >
           <input
             id="gen-sw"
             type="range"
             min="0"
-            max="5"
+            max="10"
             step="0.5"
             bind:value={strokeWidth}
           />
@@ -337,7 +337,6 @@
   }
 
   .control-group select,
-  .control-group input[type="range"],
   .control-group input[type="text"] {
     padding: 0.5rem;
     border: 1px solid #d1d5db;
@@ -347,14 +346,18 @@
     font: inherit;
   }
 
+  .control-group input[type="range"] {
+    width: 100%;
+    height: 6px;
+    accent-color: #fd364e;
+  }
+
   .control-group select:hover,
-  .control-group input[type="range"]:hover,
   .control-group input[type="text"]:hover {
     border-color: #9ca3af;
   }
 
   .control-group select:focus,
-  .control-group input[type="range"]:focus,
   .control-group input[type="text"]:focus {
     outline: none;
     border-color: #6b7280;

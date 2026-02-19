@@ -298,63 +298,118 @@
             showCode = false;
           }}
         >
-          <span class="lib-icon">
-            {#if key === "canvas"}
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                ><rect x="3" y="3" width="18" height="18" rx="2" /><path
-                  d="m9 9 3 3-3 3"
-                /></svg
-              >
-            {:else if key === "plot"}
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                ><rect x="3" y="12" width="4" height="9" /><rect
-                  x="10"
-                  y="6"
-                  width="4"
-                  height="15"
-                /><rect x="17" y="3" width="4" height="18" /></svg
-              >
-            {:else if key === "bertin"}
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                ><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path
-                  d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10"
-                /></svg
-              >
-            {:else}
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                ><polygon
-                  points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"
-                /><line x1="12" y1="22" x2="12" y2="15.5" /><polyline
-                  points="22 8.5 12 15.5 2 8.5"
-                /></svg
-              >
-            {/if}
+          <span class="lib-btn-left">
+            <span class="lib-icon">
+              {#if key === "canvas"}
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  ><rect x="3" y="3" width="18" height="18" rx="2" /><path
+                    d="m9 9 3 3-3 3"
+                  /></svg
+                >
+              {:else if key === "plot"}
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  ><rect x="3" y="12" width="4" height="9" /><rect
+                    x="10"
+                    y="6"
+                    width="4"
+                    height="15"
+                  /><rect x="17" y="3" width="4" height="18" /></svg
+                >
+              {:else if key === "bertin"}
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  ><circle cx="12" cy="12" r="10" /><path d="M2 12h20" /><path
+                    d="M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10"
+                  /></svg
+                >
+              {:else}
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  ><polygon
+                    points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5"
+                  /><line x1="12" y1="22" x2="12" y2="15.5" /><polyline
+                    points="22 8.5 12 15.5 2 8.5"
+                  /></svg
+                >
+              {/if}
+            </span>
+            {examples[key].label}
           </span>
-          {examples[key].label}
+          {#if key === "plot"}
+            <a
+              href="https://observablehq.com/plot/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="lib-link"
+              onclick={(e) => e.stopPropagation()}
+              title="Observable Plot documentation"
+            >
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                ><path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                /><polyline points="15 3 21 3 21 9" /><line
+                  x1="10"
+                  y1="14"
+                  x2="21"
+                  y2="3"
+                /></svg
+              >
+            </a>
+          {:else if key === "bertin"}
+            <a
+              href="https://github.com/riatelab/bertin"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="lib-link"
+              onclick={(e) => e.stopPropagation()}
+              title="Bertin.js on GitHub"
+            >
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                ><path
+                  d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"
+                /><polyline points="15 3 21 3 21 9" /><line
+                  x1="10"
+                  y1="14"
+                  x2="21"
+                  y2="3"
+                /></svg
+              >
+            </a>
+          {/if}
         </button>
       {/each}
     </div>
@@ -453,7 +508,6 @@
   .lib-btn {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
     padding: 0.7rem 1rem;
     font-size: 0.9rem;
     font-weight: 500;
@@ -465,6 +519,8 @@
     transition: all 0.3s;
     text-align: left;
     opacity: 0.6;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
   .lib-btn:hover {
@@ -485,6 +541,31 @@
     display: flex;
     align-items: center;
     opacity: 0.6;
+  }
+
+  .lib-btn-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .lib-link {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    opacity: 0;
+    color: inherit;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+
+  .lib-btn:hover .lib-link,
+  .lib-btn.active .lib-link {
+    opacity: 0.5;
+  }
+
+  .lib-link:hover {
+    opacity: 1 !important;
   }
 
   .lib-btn.active .lib-icon {

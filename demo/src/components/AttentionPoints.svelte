@@ -98,20 +98,15 @@
       </div>
 
       <div class="patch-toggle">
-        <button
-          class="btn"
-          class:btn-active={patchEnabled}
-          onclick={() => (patchEnabled = true)}
-        >
-          patchSize enabled
-        </button>
-        <button
-          class="btn"
-          class:btn-active={!patchEnabled}
-          onclick={() => (patchEnabled = false)}
-        >
-          patchSize disabled
-        </button>
+        <label class="toggle-switch">
+          <input type="checkbox" bind:checked={patchEnabled} />
+          <span class="toggle-track">
+            <span class="toggle-thumb"></span>
+          </span>
+          <span class="toggle-label"
+            >patchSize {patchEnabled ? "enabled" : "disabled"}</span
+          >
+        </label>
       </div>
 
       <div class="patch-matrix">
@@ -122,6 +117,9 @@
               {#each patchSizes as sz}
                 {@const key = `${patType}-${sz}`}
                 <div class="patch-tile">
+                  {#if patType === patchTypes[0]}
+                    <span class="patch-size-label">{sz}%</span>
+                  {/if}
                   <canvas
                     width={60}
                     height={60}
@@ -137,9 +135,6 @@
                       height: 60,
                     }}
                   ></canvas>
-                  {#if patType === patchTypes[0]}
-                    <span class="patch-size-label">{sz}%</span>
-                  {/if}
                 </div>
               {/each}
             </div>
@@ -230,34 +225,59 @@
   /* ---- PatchSize Demo ---- */
   .patch-toggle {
     display: flex;
-    gap: 0.5rem;
+    align-items: center;
     margin-bottom: 1.5rem;
   }
 
-  .btn {
-    padding: 0.6rem 1.2rem;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    background: #f9fafb;
+  .toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     cursor: pointer;
+    user-select: none;
+  }
+
+  .toggle-switch input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    background: #d1d5db;
+    transition: background 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .toggle-switch input:checked ~ .toggle-track {
+    background: #e6142d;
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease;
+  }
+
+  .toggle-switch input:checked ~ .toggle-track .toggle-thumb {
+    transform: translateX(20px);
+  }
+
+  .toggle-label {
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all 0.3s;
-  }
-
-  .btn:hover {
-    border-color: #9ca3af;
-    background: #f3f4f6;
-  }
-
-  .btn.btn-active {
-    background: #1a1a1a;
-    color: white;
-    border-color: #1a1a1a;
-  }
-
-  .btn.btn-active:hover {
-    background: #2a2a2a;
+    min-width: 130px;
   }
 
   .patch-matrix {

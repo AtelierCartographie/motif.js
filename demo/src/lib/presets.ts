@@ -7,67 +7,47 @@ export interface Preset {
 
 export const presets: Preset[] = [
   {
-    name: "Hachures",
-    options: { type: "line", angle: 45, size: 25, fill: "#1e3a5f", background: "#ffffff" }
+    name: "Thin lines",
+    options: { type: "line", size: 10 }
   },
   {
-    name: "Pointillés",
-    options: { type: "circle", size: 25, fill: "#c1121f", background: "#ffffff" }
+    name: "Hatches",
+    options: { type: "line", scale: 0.5, size: 15, angle: 45, fill: "#f08080", background: "#fde6db" }
   },
   {
-    name: "Tartan",
-    options: { type: "plaid", size: 30, fill: "#2d6a4f", background: "#ffffff" }
+    name: "Grid",
+    options: { type: "plaid", scale: 2.5, size: 30, fill: "#20b2aa" }
   },
   {
-    name: "Plus",
-    options: { type: "plus", size: 30, fill: "#7209b7", background: "#ffffff" }
+    name: "Circles",
+    options: { type: "circle", scale: 1, size: 15, fill: "#2861bd" }
   },
   {
-    name: "Croisillons",
-    options: { type: "cross", size: 20, fill: "#e76f51", background: "#ffffff" }
+    name: "Circles outlined",
+    options: { type: "circle", scale: 0.75, size: 15, angle: 45, fill: "#ffffff", stroke: "#000000", strokeWidth: 1 }
+  },
+  {
+    name: "Crosses",
+    options: { type: "cross", scale: 2, size: 6 }
+  },
+  {
+    name: "Crosses XL",
+    options: { type: "cross", scale: 5, size: 55, fill: "#c6cbc3" }
   },
   {
     name: "Triangles",
-    options: { type: "triangle", size: 35, fill: "#264653", background: "#ffffff" }
+    options: { type: "triangle", scale: 3, size: 10, angle: 0, fill: "#ffffff", background: "#000000"}
   },
   {
-    name: "Carrés",
-    options: { type: "square", size: 25, fill: "#e9c46a", background: "#264653" }
+    name: "Plus",
+    options: { type: "plus", scale: 4, size: 21, angle: 15, fill: "#f08080", stroke: "#000000", strokeWidth: 2  }
   },
   {
-    name: "Losanges",
-    options: { type: "diamond", size: 25, fill: "#2a9d8f", background: "#ffffff" }
+    name: "Royal blue",
+    options: { type: "square", scale: 2.5, size: 5, angle: 45, fill: "#ffd700", background: "#00009D" }
   },
   {
-    name: "Lignes fines",
-    options: { type: "line", size: 10, angle: 0, fill: "#000000", background: "#ffffff" }
-  },
-  {
-    name: "Gros pois",
-    options: { type: "circle", size: 50, fill: "#d62828", background: "#ffffff", patchSize: true }
-  },
-  {
-    name: "Grille dense",
-    options: { type: "plaid", size: 50, fill: "#003049", background: "#ffffff" }
-  },
-  {
-    name: "Diagonale",
-    options: { type: "line", angle: -30, size: 30, fill: "#f77f00", background: "#ffffff" }
-  },
-  {
-    name: "Rayures cobalt",
-    options: { type: "line", angle: 135, size: 20, fill: "#2563eb", background: "#dbeafe" }
-  },
-  {
-    name: "Pois bicolores",
-    options: { type: "circle", size: 35, fill: "#10b981", background: "#ecfdf5", scale: 1.5 }
-  },
-  {
-    name: "Croix fines",
-    options: { type: "cross", size: 12, fill: "#6366f1", background: "#eef2ff" }
-  },
-  {
-    name: "Triangles denses",
-    options: { type: "triangle", size: 45, fill: "#0f172a", background: "#f8fafc", patchSize: true }
-  },
+    name: "Tartan",
+    options: { type: "plaid", scale: 4, size: 10, angle: 160, fill: "#ffffff", stroke: "#dc143c", strokeWidth: 7, background: "#deb887", border: 3 }
+  }
 ];
