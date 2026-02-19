@@ -1,0 +1,26 @@
+{
+  "name": "motif-demo",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "motif.js": "workspace:*",
+    "d3": "^7.9.0",
+    "d3-geo-projection": "^4.0.0"
+  },
+  "devDependencies": {
+    "@fontsource-variable/atkinson-hyperlegible-mono": "^5.2.5",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.2.6",
+    "@observablehq/plot": "^0.6.17",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "bertin": "^1.8.5",
+    "shiki": "^3.22.0",
+    "svelte": "^5.51.2",
+    "vite": "^6.4.1"
+  }
+}

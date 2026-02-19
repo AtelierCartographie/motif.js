@@ -19,32 +19,14 @@
   "scripts": {
     "dev": "vite --config demo/vite.config.ts demo",
     "build": "tsc && vite build",
-    "build:demo": "vite build --config demo/vite.config.ts demo",
+    "build:demo": "pnpm --filter motif-demo build",
     "preview": "npm run build"
   },
   "devDependencies": {
-    "@fontsource-variable/atkinson-hyperlegible-mono": "^5.2.5",
-    "@fontsource-variable/atkinson-hyperlegible-next": "^5.2.6",
-    "@observablehq/plot": "^0.6.17",
-    "@sveltejs/vite-plugin-svelte": "^6.2.4",
-    "@types/d3": "^7.4.3",
-    "@types/node": "^20.10.0",
-    "bertin": "^1.8.5",
-    "d3": "^7.9.0",
-    "d3-geo-projection": "^4.0.0",
-    "shiki": "^3.22.0",
-    "svelte": "^5.51.2",
+    "@types/node": "^22.10.0",
     "typescript": "^5.3.3",
     "vite": "^6.4.1",
     "vite-plugin-dts": "^4.5.4"
-  },
-  "peerDependencies": {
-    "@observablehq/plot": "^0.6.0"
-  },
-  "peerDependenciesMeta": {
-    "@observablehq/plot": {
-      "optional": true
-    }
   },
   "repository": {
     "type": "git",
