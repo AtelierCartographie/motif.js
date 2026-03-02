@@ -50,7 +50,7 @@ jobs:
 
             ### Install
             ```bash
-            npm install @ateliercartographie/motif.js@${{ github.ref_name }}
+            npm install @ateliercartographie/motif.js
             ```
           draft: false
           prerelease: false
