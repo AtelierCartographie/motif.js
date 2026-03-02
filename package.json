@@ -1,5 +1,5 @@
 {
-  "name": "motif.js",
+  "name": "@ateliercartographie/motif.js",
   "version": "0.1.0",
   "type": "module",
   "description": "A pattern generator that can be used in SVG environment or Canvas context",
@@ -20,7 +20,11 @@
     "dev": "vite --config demo/vite.config.ts demo",
     "build": "tsc && vite build",
     "build:demo": "pnpm --filter motif-demo build",
-    "preview": "npm run build"
+    "preview": "npm run build",
+    "prepublishOnly": "pnpm run build",
+    "release:patch": "npm version patch && git push --follow-tags",
+    "release:minor": "npm version minor && git push --follow-tags",
+    "release:major": "npm version major && git push --follow-tags"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",

@@ -21,3 +21,18 @@ You MUST use this tool whenever writing Svelte code before sending it to the use
 
 Generates a Svelte Playground link with the provided code.
 After completing the code, ask the user if they want a playground link. Only call this tool after user confirmation and NEVER if code was written to files in their project.
+
+## Project Workflow Rules
+
+### Changelog discipline
+
+- For every user request that results in a meaningful project change, update `CHANGELOG.md` in the same task.
+- Add changes under `## [Unreleased]` using Keep a Changelog categories (`Added`, `Changed`, `Fixed`, `Removed`, `Deprecated`, `Security`).
+- If `Unreleased` does not contain the needed category, create it.
+- Keep entries short, factual, and user-facing.
+- Do not add changelog entries for trivial internal edits (formatting only, typo-only, comments-only, CI metadata-only), unless the user explicitly asks.
+- If a release is being prepared, move relevant `Unreleased` entries to the target version section only when the user asks for release prep.
+
+### End-of-task check
+
+- Before finalizing, verify whether `CHANGELOG.md` was updated when applicable.

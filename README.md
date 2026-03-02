@@ -20,19 +20,19 @@ A pattern generator that can be used in SVG environments or Canvas contexts. Cre
 ### With pnpm (recommended)
 
 ```bash
-pnpm add motif.js
+pnpm add @ateliercartographie/motif.js
 ```
 
 ### With npm
 
 ```bash
-npm install motif.js
+npm install @ateliercartographie/motif.js
 ```
 
 ### With yarn
 
 ```bash
-yarn add motif.js
+yarn add @ateliercartographie/motif.js
 ```
 
 ## 🚀 Quick Start
@@ -40,7 +40,7 @@ yarn add motif.js
 ### SVG Pattern
 
 ```typescript
-import { motif } from "motif.js";
+import { motif } from "@ateliercartographie/motif.js";
 
 const pattern = motif({
   type: "circle",
@@ -66,7 +66,7 @@ svg.appendChild(rect);
 ### Canvas Pattern
 
 ```typescript
-import { motif } from "motif.js";
+import { motif } from "@ateliercartographie/motif.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -88,7 +88,7 @@ pattern.apply();
 
 ```typescript
 import * as Plot from "@observablehq/plot";
-import { motif } from "motif.js";
+import { motif } from "@ateliercartographie/motif.js";
 
 const pattern = motif({
   type: "circle",
@@ -271,7 +271,7 @@ Use patterns to fill geographic regions:
 
 ```typescript
 import * as d3 from "d3";
-import { motif } from "motif.js";
+import { motif } from "@ateliercartographie/motif.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -312,7 +312,7 @@ ctx.stroke();
 Use `motifAtlas` to generate a sprite sheet for Deck.gl's `FillStyleExtension`. Each motif keeps its rotation, scale, and all visual options.
 
 ```typescript
-import { motifAtlas } from "motif.js";
+import { motifAtlas } from "@ateliercartographie/motif.js";
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { FillStyleExtension } from "@deck.gl/extensions";
 
