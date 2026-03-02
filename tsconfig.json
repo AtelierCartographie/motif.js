@@ -10,7 +10,7 @@
     "declaration": true,
     "declarationMap": true,
     "paths": {
-      "motif.js": ["./src/index.ts"],
+      "@ateliercartographie/motif.js": ["./src/index.ts"],
       "$lib/*": ["./demo/src/lib/*"]
     },
 
