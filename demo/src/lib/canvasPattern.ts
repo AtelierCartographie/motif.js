@@ -1,4 +1,4 @@
-import { motif, type PatternOptions } from "motif.js";
+import { motif, type PatternOptions } from "@ateliercartographie/motif.js";
 
 export type CanvasPatternParams = {
   options: PatternOptions;

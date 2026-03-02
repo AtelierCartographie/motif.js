@@ -1,4 +1,4 @@
-import type { PatternOptions } from 'motif.js';
+import type { PatternOptions } from '@ateliercartographie/motif.js';
 
 export interface Preset {
   name: string;

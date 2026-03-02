@@ -14,7 +14,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '$lib': path.resolve(__dirname, './src/lib'),
-      'motif.js': path.resolve(__dirname, '../src/index.ts'),
+      '@ateliercartographie/motif.js': path.resolve(__dirname, '../src/index.ts'),
     },
   },
   build: {

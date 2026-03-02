@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "motif.js": "workspace:*",
+    "@ateliercartographie/motif.js": "workspace:*",
     "d3": "^7.9.0",
     "d3-geo-projection": "^4.0.0"
   },

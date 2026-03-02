@@ -1,7 +1,7 @@
 <script lang="ts">
   import { highlight } from "../lib/shiki";
 
-  let creationCode = `import { motif } from "motif.js";
+  let creationCode = `import { motif } from "@ateliercartographie/motif.js";
 
 // Create your pattern
 const pattern = motif({ type: "circle", scale: 2, size: 30 });`;

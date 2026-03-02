@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type PatternType } from "motif.js";
+  import { type PatternType } from "@ateliercartographie/motif.js";
   import { canvasPattern } from "../lib/canvasPattern";
   import { presets } from "../lib/presets";
   import { highlight } from "../lib/shiki";
@@ -53,7 +53,7 @@
   // Generate code string (only non-default values)
   let codeString = $derived.by(() => {
     const lines: string[] = [];
-    lines.push(`import { motif } from "motif.js";`);
+    lines.push(`import { motif } from "@ateliercartographie/motif.js";`);
     lines.push(``);
     lines.push(`const pattern = motif({`);
     if (type !== "line") lines.push(`  type: "${type}",`);

@@ -1,7 +1,7 @@
 export const examples: Record<string, { label: string; code: string }> = {
   canvas: {
     label: "Canvas",
-    code: `import { motif } from "motif.js";
+    code: `import { motif } from "@ateliercartographie/motif.js";
 import * as d3 from "d3";
 import * as d3Projections from "d3-geo-projection";
 import countries110m from "./countries110m.json";
@@ -73,7 +73,7 @@ ctx.stroke();`,
   plot: {
     label: "Observable Plot",
     code: `import * as Plot from "@observablehq/plot";
-import { motif } from "motif.js";
+import { motif } from "@ateliercartographie/motif.js";
 
 const params_pattern = { type: "line", scale: 0.5, size: 15 };
 const pattern_up = motif({
@@ -119,7 +119,7 @@ Plot.plot({
     label: "Bertin.js",
     code: `import { draw } from "bertin";
 import * as d3 from "d3";
-import { motif } from "motif.js";
+import { motif } from "@ateliercartographie/motif.js";
 // france_dep.json already has a "density" property on each feature
 import france_dep from "./france_dep.json";
 
@@ -193,7 +193,7 @@ draw({
     label: "SveltePlot",
     code: `<script>
   import { Plot, BarY, RuleY } from "@svelteplot/svelteplot";
-  import { motif } from "motif.js";
+  import { motif } from "@ateliercartographie/motif.js";
 
   const data = [
     { category: "A", value: 28 },

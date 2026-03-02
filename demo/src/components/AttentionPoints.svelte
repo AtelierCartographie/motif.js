@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type PatternType } from "motif.js";
+  import { type PatternType } from "@ateliercartographie/motif.js";
   import { canvasPattern } from "../lib/canvasPattern";
 
   // ---- Scale Demo ----

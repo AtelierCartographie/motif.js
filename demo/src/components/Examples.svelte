@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { motif } from "motif.js";
+  import { motif } from "@ateliercartographie/motif.js";
   import { examples } from "../lib/examples";
   import { highlight } from "../lib/shiki";
   import PlotComponent from "./PlotComponent.svelte";

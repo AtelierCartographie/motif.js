@@ -27,15 +27,15 @@ importers:
 
   demo:
     dependencies:
+      '@ateliercartographie/motif.js':
+        specifier: workspace:*
+        version: link:..
       d3:
         specifier: ^7.9.0
         version: 7.9.0
       d3-geo-projection:
         specifier: ^4.0.0
         version: 4.0.0
-      motif.js:
-        specifier: workspace:*
-        version: link:..
     devDependencies:
       '@fontsource-variable/atkinson-hyperlegible-mono':
         specifier: ^5.2.5
