@@ -116,21 +116,21 @@ Creates a pattern that can be used in SVG or Canvas.
 
 #### Options
 
-| Option         | Type     | Default         | Description                                                                                         |
-| -------------- | -------- | --------------- | --------------------------------------------------------------------------------------------------- |
-| `type`         | string   | `"line"`        | Pattern type: "line", "plaid", "circle", "plus", "cross", "triangle", "square", "diamond", "custom" |
-| `scale`        | number   | `1`             | Scale of the tile (multiplier)                                                                      |
-| `size`         | number   | `20`            | Shape size as a percentage of tile area (0-100)                                                     |
-| `angle`        | number   | `0`             | Rotation angle in degrees (0-360)                                                                   |
-| `fill`         | string   | `"black"`       | Fill color (CSS color)                                                                              |
-| `stroke`       | string   | `"transparent"` | Stroke color (CSS color)                                                                            |
-| `strokeWidth`  | number   | `0`             | Stroke width in pixels                                                                              |
-| `dash`         | number[] | `[]`            | Dash pattern for stroke (e.g., `[5, 5]`)                                                            |
-| `background`   | string   | `"white"`       | Background color of the pattern tile                                                                |
-| `border`       | number   | `0`             | Border width around tile edges                                                                      |
-| `patchSize`    | boolean  | `false`         | Intelligently swap foreground/background for better appearance at high sizes                        |
-| `custom.shape` | function | -               | Custom shape function (for type: "custom")                                                          |
-| `custom.patch` | number   | `50`            | Patch size for custom shapes                                                                        |
+| Option         | Type     | Default         | Description                                                                                                      |
+| -------------- | -------- | --------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `type`         | string   | `"line"`        | Pattern type: "line", "plaid", "circle", "plus", "cross", "triangle", "square", "diamond", "dithering", "custom" |
+| `scale`        | number   | `1`             | Scale of the tile (multiplier)                                                                                   |
+| `size`         | number   | `20`            | Shape size as a percentage of tile area (0-100)                                                                  |
+| `angle`        | number   | `0`             | Rotation angle in degrees (0-360)                                                                                |
+| `fill`         | string   | `"black"`       | Fill color (CSS color)                                                                                           |
+| `stroke`       | string   | `"transparent"` | Stroke color (CSS color)                                                                                         |
+| `strokeWidth`  | number   | `0`             | Stroke width in pixels                                                                                           |
+| `dash`         | number[] | `[]`            | Dash pattern for stroke (e.g., `[5, 5]`)                                                                         |
+| `background`   | string   | `"white"`       | Background color of the pattern tile                                                                             |
+| `border`       | number   | `0`             | Border width around tile edges                                                                                   |
+| `patchSize`    | boolean  | `false`         | Intelligently swap foreground/background for better appearance at high sizes                                     |
+| `custom.shape` | function | -               | Custom shape function (for type: "custom")                                                                       |
+| `custom.patch` | number   | `50`            | Patch size for custom shapes                                                                                     |
 
 #### Return Value
 
@@ -209,6 +209,14 @@ Square pattern (diamond is 45° rotated)
 ```typescript
 motif({ type: "square", size: 25 });
 motif({ type: "diamond", size: 25 });
+```
+
+### Dithering
+
+Dithering pattern. Due to the 4x4 Bayer matrix, the `size` option is limited to only 16 values/steps (multiples of 4).
+
+```typescript
+motif({ type: "dithering", scale: 2, size: 30 });
 ```
 
 ### Custom

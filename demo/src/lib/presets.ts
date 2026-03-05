@@ -43,6 +43,10 @@ export const presets: Preset[] = [
     options: { type: "plus", scale: 4, size: 21, angle: 15, fill: "#f08080", stroke: "#000000", strokeWidth: 2  }
   },
   {
+    name: "Dithering",
+    options: { type: "dithering", scale: 2, size: 30  }
+  },
+  {
     name: "Royal blue",
     options: { type: "square", scale: 2.5, size: 5, angle: 45, fill: "#ffd700", background: "#00009D" }
   },

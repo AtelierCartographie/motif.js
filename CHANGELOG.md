@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No changes yet.
 
+## [0.1.5] - 2026-03-05
+
+- New shape available : `dithering` as a 4x4 Bayer matrix.
+
 ## [0.1.1] - 2026-03-02
 
 ### Fixed

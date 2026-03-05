@@ -24,7 +24,7 @@ const DEFAULT_DPI_MULTIPLIER = 2;
 const CROSS_DIAMOND_ROTATION = 45;
 const TILE_BASE_SIZE = 10;
 
-export type PatternType = "line" | "plaid" | "circle" | "plus" | "cross" | "triangle" | "square" | "diamond" | "custom";
+export type PatternType = "line" | "plaid" | "circle" | "plus" | "cross" | "triangle" | "square" | "diamond" | "dithering" | "custom";
 
 export type CustomShapeFnSVG = (t: number, shapeArea: number) => string;
 export type CustomShapeFnCanvas = (t: number, shapeArea: number, context: Path) => Path;
@@ -134,6 +134,47 @@ function square(t: number, shapeArea: number): string {
           Z`;
 }
 
+function dithering(t: number, shapeArea: number): string {
+  // 1. Calcul du ratio de remplissage (entre 0 et 1)
+  // t * t est l'aire totale de la tuile
+  const ratio = Math.max(0, Math.min(1, shapeArea / (t * t)));
+
+  // 2. Matrice de Bayer 4x4 (valeurs de 0 à 15)
+  // Elle définit l'ordre dans lequel les pixels s'allument
+  const bayer = [
+     0,  8,  2, 10,
+    12,  4, 14,  6,
+     3, 11,  1,  9,
+    15,  7, 13,  5
+  ];
+
+  const gridSize = 4; // Grille de 4x4 pixels
+  const pixelSize = t / gridSize; // Taille d'un "pixel"
+  let path = '';
+
+  // 3. Boucle sur la grille pour construire le chemin SVG
+  for (let y = 0; y < gridSize; y++) {
+    for (let x = 0; x < gridSize; x++) {
+      // On normalise le seuil entre 0 et 1 
+      // (+ 0.5 pour centrer l'activation sur les classes de ok-palette)
+      const threshold = (bayer[y * gridSize + x] + 0.5) / (gridSize * gridSize);
+
+      if (ratio >= threshold) {
+        // Coordonnées du coin supérieur gauche du pixel
+        // On part de -t/2 pour respecter le centrage de motif.js
+        const px = -t / 2 + x * pixelSize;
+        const py = -t / 2 + y * pixelSize;
+
+        // Ajout du petit carré au chemin SVG global
+        path += `M ${px} ${py} h ${pixelSize} v ${pixelSize} h ${-pixelSize} Z `;
+      }
+    }
+  }
+
+  // Si l'aire est très proche de 0, on retourne un chemin vide
+  return path.trim() || 'M 0 0'; 
+}
+
 export function motif(options: PatternOptions = {}): PatternResult {
   let {
     type = "line",
@@ -164,6 +205,7 @@ export function motif(options: PatternOptions = {}): PatternResult {
     ["triangle", triangle],
     ["square", square],
     ["diamond", square],
+    ["dithering", dithering],
     ["custom", custom?.shape as CustomShapeFn]
   ]);
 
@@ -177,6 +219,7 @@ export function motif(options: PatternOptions = {}): PatternResult {
     ["cross", 55],
     ["square", 50], // arbitrary
     ["diamond", 50],
+    ["dithering", 100],
     ["custom", custom?.patch ?? 50]
   ]);
 

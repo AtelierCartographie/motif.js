@@ -27,6 +27,7 @@
     "triangle",
     "square",
     "diamond",
+    "dithering",
   ];
 
   let dash = $derived(
